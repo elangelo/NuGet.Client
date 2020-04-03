@@ -53,17 +53,16 @@
           <Binding Path="MinWidth" ElementName="_rightSideGridColumn" />
         </MultiBinding>
       </DockPanel.MinWidth>
+        <nuget:PackageManagerTopPanel
+        DockPanel.Dock="Top"
+        x:Name="_topPanel"
+        Margin="24,0,24,17"
+        SettingsButtonClicked="SettingsButtonClicked"
+        FilterChanged="Filter_SelectionChanged"
+        PrereleaseCheckChanged="CheckboxPrerelease_CheckChanged"
+        SourceRepoListSelectionChanged="SourceRepoList_SelectionChanged" />
 
-    <nuget:PackageManagerTopPanel
-      DockPanel.Dock="Top"
-      x:Name="_topPanel"
-      Margin="24,0,24,17"
-      SettingsButtonClicked="SettingsButtonClicked"
-      FilterChanged="Filter_SelectionChanged"
-      PrereleaseCheckChanged="CheckboxPrerelease_CheckChanged"
-      SourceRepoListSelectionChanged="SourceRepoList_SelectionChanged" />
-
-    <Border
+      <Border
       DockPanel.Dock="Top"
       BorderThickness="0,1,0,0"
       BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
@@ -89,18 +88,28 @@
               Width="35*"
               MinWidth="330" />
           </Grid.ColumnDefinitions>
-
-          <!-- left side -->
-          <Grid
+          <StackPanel Orientation="Vertical">
+            <Button
+            Grid.Column="1"
+            x:Name="_telemetryButton"
+            Margin="3,0"
+            VerticalAlignment="Center"
+            Padding="0"
+            ToolTip="Emit Telemetry"
+            Click="TelemetryButton_Click"
+            Content="EmitTelemetry">
+            </Button>
+            <!-- left side -->
+            <Grid
             Name="_leftSide"
             Grid.Column="0">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="*" />
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
 
-            <nuget:InfiniteScrollList
+              <nuget:InfiniteScrollList
               Grid.Row="0"
               x:Name="_packageList"
               AutomationProperties.Name="{x:Static nuget:Resources.Accessibility_PackagesList}"
@@ -108,14 +117,14 @@
               UpdateButtonClicked="PackageList_UpdateButtonClicked"
               Width="{Binding ActualWidth, ElementName=_leftSide}"/>
 
-            <Border
+              <Border
               Grid.Row="2"
               BorderThickness="0,1,0,0"
               x:Name="_legalDisclaimer"
               BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
               Background="{DynamicResource {x:Static nuget:Brushes.LegalMessageBackground}}"
               Width="{Binding ActualWidth, ElementName=_leftSide}">
-              <TextBlock
+                <TextBlock
                 TextWrapping="Wrap"
                 Margin="24,12,24,12">
                 <Run
@@ -128,10 +137,10 @@
                   Foreground="{DynamicResource {x:Static nuget:Brushes.UIText}}"
                   Content="{x:Static nuget:Resources.DoNotShowThisAgain}"
                   Checked="SuppressDisclaimerChecked" />
-              </TextBlock>
-            </Border>
-          </Grid>
-
+                </TextBlock>
+              </Border>
+            </Grid>
+          </StackPanel>
           <GridSplitter
             x:Name="_gridSplitter"
             Grid.Column="1"
